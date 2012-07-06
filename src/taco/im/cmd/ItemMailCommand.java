@@ -7,13 +7,16 @@ import org.bukkit.entity.Player;
 
 import taco.im.ItemMail;
 import taco.im.obj.ItemMailPlayer;
+import taco.im.util.MailMan;
 
 public class ItemMailCommand implements CommandExecutor{
 	
 	private ItemMail plugin = null;
+	private MailMan mailman = null;
 	
 	public ItemMailCommand(ItemMail instance){
 		plugin = instance;
+		mailman = new MailMan(plugin);
 	}
 
 	@Override
