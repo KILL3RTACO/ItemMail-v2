@@ -1,0 +1,9 @@
+name: ItemMail
+main: taco.im.ItemMail
+version: 2.0
+description: Easily send items to players
+commands:
+  itemmail:
+    usage: /itemmail [send/read]
+    description: ItemMail commands
+    aliases: im
