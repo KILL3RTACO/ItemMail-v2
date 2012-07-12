@@ -4,48 +4,48 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import taco.im.cmd.ItemMailCommand;
 import taco.im.sql.ItemMailSQL;
-import taco.im.util.ChatUtils;
 
 public class ItemMail extends JavaPlugin{
 
 	private File configFile = new File("plugins/ItemMail/config.yml");
-	public static String SEND_PERMISSION = "ItemMail.action.send";
-	public static String OPEN_PERMISSION = "ItemMail.action.open";
-	public static String ALL_PERMISSION = "ItemMail.action.*";
-	public ChatUtils cu = new ChatUtils();
-	public Config config = new Config();
-	public ItemMailSQL mysql;
+	public Config config = new Config(configFile);
+	public ItemMailSQL mysql = null;
 	
 	public void onDisable(){
-		info("Disabled");
+		
 	}
 	
 	public void onEnable(){
 		addDataFolders();
-		getCommand("itemmail").setExecutor(new ItemMailCommand(this));
 		info("Loading config...");
 		config.loadDefaults();
+		CommandExecutor executor = new ItemMailCommand(this);
+		getCommand("itemmail").setExecutor(executor);
 		try {
-			setup();
-			info("[MySQL] Connected to server!");
+			info("[MySQL] Connecting...");
+			setupMySQL();
+			info("[MySQL] Connected to server");
 		} catch (Exception e) {
-			info("MySQL set up incorrectly, please check the config.yml");
+			info("[MySQL] Failed to connect, please check the config.yml");
 		}
+		info("Enabled");
 	}
 	
 	private void addDataFolders(){
 		try {
-			createDirs(configFile);
+			createDir(configFile);
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-
-	private void createDirs(File file) throws IOException{
+	
+	private void createDir(File file) throws IOException{
 		if(!file.exists()){
 			info("Cannot find /" + file.getPath().substring(20) +", creating new file...");
 			if(file.getParentFile() != null)
@@ -58,11 +58,12 @@ public class ItemMail extends JavaPlugin{
 		}
 	}
 	
-	public void info(String message) {
-		System.out.println("[ItemMail] " + message);
+	public void info(String msg){
+		System.out.println("[ItemMail] " + msg);
 	}
 	
-	private void setup() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException{
+	private void setupMySQL() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException{
 		mysql = new ItemMailSQL(this);
 	}
+	
 }

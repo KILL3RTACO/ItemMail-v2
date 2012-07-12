@@ -6,11 +6,17 @@ import java.io.IOException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 public class Config {
-
-	File configFile = new File("plugins/ItemMail/config.yml");
-	YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile);
+	
+	private YamlConfiguration config = null;
+	private File configFile = null;
+	
+	public Config(File file){
+		config = YamlConfiguration.loadConfiguration(file);
+		this.configFile = file;
+	}
 	
 	public void loadDefaults(){
+		config.options().header("ItemMail configuration options\nby KILL3RTACO");
 		if(!config.contains("mysql.database.name"))							//MySQL options
 			config.set("mysql.database.name", "minecraft");
 		if(!config.contains("mysql.database.username"))
@@ -32,23 +38,23 @@ public class Config {
 		}
 	}
 	
-	public String getMySQLDatabaseName(){
+	public String getMySqlDatabaseName(){
 		return getString("mysql.database.name");
 	}
-	
-	public String getMySQLDatabaseUsername(){
+
+	public String getMySqlDatabaseUsername(){
 		return getString("mysql.database.username");
 	}
 	
-	public String getMySQLDatabasePassword(){
+	public String getMySqlDatabasePassword(){
 		return getString("mysql.database.password");
 	}
 	
-	public String getMySQLServerAddress(){
+	public String getMySqlServerAddress(){
 		return getString("mysql.server.address");
 	}
 	
-	public int getMySQLServerPort(){
+	public int getMySqlServerPort(){
 		return getInt("mysql.server.port");
 	}
 	

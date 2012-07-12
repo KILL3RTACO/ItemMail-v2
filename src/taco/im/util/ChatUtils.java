@@ -2,13 +2,12 @@ package taco.im.util;
 
 import org.bukkit.ChatColor;
 
-
 public class ChatUtils {
-
+	
 	private String header = format("%7[%1ItemMail%7]%f ", false);
 	
 	public String format(String message, boolean addHeader){
-		if(message.contains("%a"))														//letters
+		if(message.contains("%a"))						//letters
 			message = message.replaceAll("%a", ChatColor.GREEN.toString());
 		if(message.contains("%b"))
 			message = message.replaceAll("%b", ChatColor.AQUA.toString());
@@ -21,7 +20,7 @@ public class ChatUtils {
 		if(message.contains("%f"))
 			message = message.replaceAll("%f", ChatColor.WHITE.toString());
 		
-		if(message.contains("%0"))														//numbers
+		if(message.contains("%0"))						//numbers
 			message = message.replaceAll("%0", ChatColor.BLACK.toString());
 		if(message.contains("%1"))
 			message = message.replaceAll("%1", ChatColor.DARK_BLUE.toString());
@@ -48,12 +47,4 @@ public class ChatUtils {
 		return message;
 	}
 	
-	public boolean isNum(String s){
-		try{
-			Integer.parseInt(s);
-			return true;
-		}catch(NumberFormatException e){
-			return false;
-		}
-	}
 }
