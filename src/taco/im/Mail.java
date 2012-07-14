@@ -60,7 +60,13 @@ public class Mail implements BaseMail{
 		if(pReceiver == null){
 			OfflinePlayer op = plugin.getServer().getOfflinePlayer(receiver);
 			if(op.hasPlayedBefore()){
-				doSendStatement(true);
+				if(testInventory()){
+					doSendStatement(false);
+					pSender.getInventory().removeItem(items);
+					pSender.sendMessage(cu.format("%aSent %2" + getItemAmount() + " " + getItemType() + " %ato %d" + pSender.getName(), true));
+				}else{
+					pSender.sendMessage(cu.format("%cYou do not have %6" + getItemAmount() + " " + getItemType(), true));
+				}
 			}else{
 				pSender.sendMessage(cu.format("%cPlayer '%f" + receiver + "%c' does not exist or has not played on this server before", true));
 			}
