@@ -2,18 +2,22 @@ TODO
 ==================
 
 Add commands:
-  */im (see all mail[not requests])
-  */im send <player> [item:damage] [#]
   */im req (see all requests)
   */im req <player> <item:damage> [#]
   */im accept [#]
   */im decline [#]
-  */im ?
 
 IN PROGRESS
 ==================
 
-Sending/opening mail
+Request sending/accepting/declining
 
 ADDED
 ===================
+
+Commands:
+  */im (see all mail[not requests])
+  */im send <player> [item:damage] [#]
+  */im open [#]
+  */im delete [#/*]
+  */im ?
