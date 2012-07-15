@@ -60,6 +60,16 @@ public class ItemMail extends JavaPlugin implements Listener{
 		System.out.println("[ItemMail] " + msg);
 	}
 	
+	public void sendHelp(Player player){
+		player.sendMessage(cu.format("%b--------------------[%3ItemMail: %1Help%b]---------------------", false));
+		player.sendMessage(cu.format("%1/im %3send %b<player> [item:damage] [#] %7- %3Send mail", false));
+		player.sendMessage(cu.format("%1/im %3open %b[#]                              %7- %3Open mail", false));
+		player.sendMessage(cu.format("%1/im %3delete %b[#/*]                         %7- %3Delete unwanted mail", false));
+		player.sendMessage(cu.format("%1/im %3?                                       %7- %3Shows this message", false));
+		player.sendMessage(cu.format("%5KEY: %6<> %7= %2Required %6[] %7= %2Optional %6* %7= %2All", false));
+		player.sendMessage(cu.format("%b-----------------------------------------------------", false));
+	}
+	
 	private void setupMySQL() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException{
 		mysql = new ItemMailSQL(this);
 	}

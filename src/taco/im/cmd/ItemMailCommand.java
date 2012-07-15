@@ -36,7 +36,7 @@ public class ItemMailCommand implements CommandExecutor {
 				new MailBox(player, plugin).getMailAtPage(page);
 			}else{
 				if(args[0].equalsIgnoreCase("?") || args[0].equalsIgnoreCase("help")){
-					//TODO add help menu
+					plugin.sendHelp(player);
 				}else if(args[0].equalsIgnoreCase("open") || args[0].equalsIgnoreCase("o") || args[0].equalsIgnoreCase("read") // /im open
 						|| args[0].equalsIgnoreCase("r")){
 					MailBox mb = new MailBox(player, plugin);
