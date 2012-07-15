@@ -2,9 +2,16 @@ package taco.im.util;
 
 import org.bukkit.ChatColor;
 
-public class ChatUtils {
+public class ChatUtils {      
 	
 	private String header = format("%7[%1ItemMail%7]%f ", false);
+	public String mailNonExistant = format("%cThat mail doesn't exist", true);
+	public String invalidArgs = format("%cInvalid arguments, please use '%7/im ?%c' for help", true);
+	public String invalidPerm = format("%cYou don't have permission", true);
+	
+	public String notNum(String s){
+		return format("%c'%f" + s + "%c' is not a number", true);
+	}
 	
 	public String format(String message, boolean addHeader){
 		if(message.contains("%a"))						//letters

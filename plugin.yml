@@ -1,6 +1,6 @@
 name: ItemMail
 main: taco.im.ItemMail
-version: 2.0
+version: 2.0b1
 description: Easily send items to players
 commands:
   itemmail:
