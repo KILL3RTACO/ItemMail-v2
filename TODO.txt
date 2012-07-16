@@ -1,16 +1,7 @@
 TODO
 ==================
 
-Add commands:
-  */im req (see all requests)
-  */im req <player> <item:damage> [#]
-  */im accept [#]
-  */im decline [#]
-
-IN PROGRESS
-==================
-
-Request sending/accepting/declining
+Suggestions welcome
 
 ADDED
 ===================
@@ -20,4 +11,8 @@ Commands:
   */im send <player> [item:damage] [#]
   */im open [#]
   */im delete [#/*]
+  */im reqs [#] (see all requests)
+  */im req <player> <item:damage> [#]
+  */im accept [#]
+  */im decline [#]
   */im ?
