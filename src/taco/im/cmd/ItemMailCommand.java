@@ -10,8 +10,10 @@ import org.bukkit.inventory.ItemStack;
 import taco.im.ItemMail;
 import taco.im.Mail;
 import taco.im.MailBox;
+import taco.im.Request;
+import taco.im.RequestBox;
 import taco.im.util.ChatUtils;
-import taco.im.util.ItemUtils;
+import taco.im.util.ItemNames;
 
 public class ItemMailCommand implements CommandExecutor {
 	
@@ -28,10 +30,10 @@ public class ItemMailCommand implements CommandExecutor {
 			player = (Player)sender;
 		}
 		
-		if(args.length == 0){
+		if(args.length == 0){																								// /im 
 			new MailBox(player, plugin).getMailAtPage(1);
 		}else if(args.length == 1){
-			if(cu.isNum(args[0])){
+			if(cu.isNum(args[0])){																							// im [#]
 				int page = Integer.parseInt(args[0]);
 				new MailBox(player, plugin).getMailAtPage(page);
 			}else{
@@ -50,6 +52,25 @@ public class ItemMailCommand implements CommandExecutor {
 					MailBox mb = new MailBox(player, plugin);
 					Mail m = Mail.getMailFromTable(player, mb.getUnopenedCount(), plugin);
 					m.trash();
+				}else if(args[0].equalsIgnoreCase("requests") || args[0].equalsIgnoreCase("reqs") || 		// /im reqs
+						args[0].equalsIgnoreCase("rs")){
+					new RequestBox(player, plugin).getRequestsAtPage(1);
+				}else if(args[0].equalsIgnoreCase("accept")){												// /im accept
+					RequestBox rb = new RequestBox(player, plugin);
+					Request r = Request.getRequestFromTable(player, rb.getUnansweredCount(), plugin);
+					if(r == null){
+						player.sendMessage(cu.requestNonExistant);
+					}else{
+						r.accept();
+					}
+				}else if(args[0].equalsIgnoreCase("decline")){												// /im decline
+					RequestBox rb = new RequestBox(player, plugin);
+					Request r = Request.getRequestFromTable(player, rb.getUnansweredCount(), plugin);
+					if(r == null){
+						player.sendMessage(cu.requestNonExistant);
+					}else{
+						r.decline();
+					}
 				}else{
 					player.sendMessage(cu.invalidArgs);
 				}
@@ -89,30 +110,84 @@ public class ItemMailCommand implements CommandExecutor {
 				}else{
 					player.sendMessage(cu.invalidArgs);
 				}
+			}else if(args[0].equalsIgnoreCase("requests") || args[0].equalsIgnoreCase("reqs") || 			// /im reqs [#]
+					args[0].equalsIgnoreCase("rs")){
+				if(cu.isNum(args[1])){
+					new RequestBox(player, plugin).getRequestsAtPage(Integer.parseInt(args[1]));
+				}else{
+					player.sendMessage(cu.notNum(args[1]));
+				}
+			}else if(args[0].equalsIgnoreCase("accept")){
+				if(cu.isNum(args[1])){
+					Request r = Request.getRequestFromTable(player, Integer.parseInt(args[1]), plugin);
+					if(r == null){
+						player.sendMessage(cu.requestNonExistant);
+					}else{
+						r.accept();
+					}
+				}else{
+					player.sendMessage(cu.notNum(args[1]));
+				}
+			}else if(args[0].equalsIgnoreCase("decline")){													// /im decline [#]
+				if(cu.isNum(args[1])){
+					Request r = Request.getRequestFromTable(player, Integer.parseInt(args[1]), plugin);
+					if(r == null){
+						player.sendMessage(cu.requestNonExistant);
+					}else{
+						r.decline();
+					}
+				}else if(args[1].equalsIgnoreCase("*") || args[1].equalsIgnoreCase("all")){					// /im decline *
+					RequestBox rb = new RequestBox(player, plugin);
+					rb.declineAllMail();
+				}else{
+					player.sendMessage(cu.notNum(args[1]));
+				}
 			}else{
 				player.sendMessage(cu.invalidArgs);
 			}
 		}else if(args.length == 3){
-			if(args[0].equalsIgnoreCase("send") || args[0].equalsIgnoreCase("s") || args[0].equalsIgnoreCase("gift") // /im send <p> [i]
+			if(args[0].equalsIgnoreCase("send") || args[0].equalsIgnoreCase("s") || args[0].equalsIgnoreCase("gift") // /im send <p> [i] 1
 					|| args[0].equalsIgnoreCase("g")){
-				ItemStack items = new ItemUtils().getItemStackFromString(args[2], "1");
+				ItemStack items = ItemNames.getItemStackFromString(args[2], "1");
 				if(items == null){
 					player.sendMessage(cu.format("%c'%f" + args[2] + " 1%c' does not make an ItemStack", true));
 				}else{
 					Mail m = new Mail(player.getName(), args[1], items, plugin);
 					m.send();
 				}
+			}else if(args[0].equalsIgnoreCase("request") || args[0].equalsIgnoreCase("req") || 			// /im req <p> [i] 1
+					args[0].equalsIgnoreCase("r")){
+				ItemStack items = ItemNames.getItemStackFromString(args[2], "1");
+				if(items == null){
+					player.sendMessage(cu.format("%c'%f" + args[2] + " 1%c' does not make an ItemStack", true));
+				}else{
+					Request r = new Request(player.getName(), args[1], items, plugin);
+					r.send();
+				}
+			}else{
+				player.sendMessage(cu.invalidArgs);
 			}
 		}else if(args.length == 4){
-			if(args[0].equalsIgnoreCase("send") || args[0].equalsIgnoreCase("s") || args[0].equalsIgnoreCase("gift") // /im send <p> [i]
+			if(args[0].equalsIgnoreCase("send") || args[0].equalsIgnoreCase("s") || args[0].equalsIgnoreCase("gift") // /im send <p> [i] [#]
 					|| args[0].equalsIgnoreCase("g")){
-				ItemStack items = new ItemUtils().getItemStackFromString(args[2], args[3]);
+				ItemStack items = ItemNames.getItemStackFromString(args[2], args[3]);
 				if(items == null){
 					player.sendMessage(cu.format("%c'%f" + args[2] + " 1%c' does not make an ItemStack", true));
 				}else{
 					Mail m = new Mail(player.getName(), args[1], items, plugin);
 					m.send();
 				}
+			}else if(args[0].equalsIgnoreCase("request") || args[0].equalsIgnoreCase("req") || 			// /im req <p> [i] [#]
+					args[0].equalsIgnoreCase("r")){
+				ItemStack items = ItemNames.getItemStackFromString(args[2], args[3]);
+				if(items == null){
+					player.sendMessage(cu.format("%c'%f" + args[2] + " 1%c' does not make an ItemStack", true));
+				}else{
+					Request r = new Request(player.getName(), args[1], items, plugin);
+					r.send();
+				}
+			}else{
+				player.sendMessage(cu.invalidArgs);
 			}
 		}
 		return true;

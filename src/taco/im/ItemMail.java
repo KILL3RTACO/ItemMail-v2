@@ -23,6 +23,8 @@ public class ItemMail extends JavaPlugin implements Listener{
 	public static String SEND_PERMISSION = "ItemMail.action.send";
 	public static String OPEN_PERMISSION = "ItemMail.action.open";
 	public static String DELETE_PERMISSION = "ItemMail.action.delete";
+	public static String ACCEPT_PERMISSION = "ItemMail.action.accept";
+	public static String DECLINE_PERMISSION = "ItemMail.action.decline";
 	
 	public void onDisable(){
 		info("Disabled");
@@ -62,11 +64,16 @@ public class ItemMail extends JavaPlugin implements Listener{
 	
 	public void sendHelp(Player player){
 		player.sendMessage(cu.format("%b--------------------[%3ItemMail: %1Help%b]---------------------", false));
+		player.sendMessage(cu.format("%1/im %3[#] %7- %3View your mail", false));
 		player.sendMessage(cu.format("%1/im %3send %b<player> [item:damage] [#] %7- %3Send mail", false));
-		player.sendMessage(cu.format("%1/im %3open %b[#]                              %7- %3Open mail", false));
-		player.sendMessage(cu.format("%1/im %3delete %b[#/*]                         %7- %3Delete unwanted mail", false));
-		player.sendMessage(cu.format("%1/im %3?                                       %7- %3Shows this message", false));
-		player.sendMessage(cu.format("%5KEY: %6<> %7= %2Required %6[] %7= %2Optional %6* %7= %2All", false));
+		player.sendMessage(cu.format("%1/im %3open %b[#] %7- %3Open mail", false));
+		player.sendMessage(cu.format("%1/im %3delete %b[#/*] %7- %3Delete unwanted mail", false));
+		player.sendMessage(cu.format("%1/im %3requests %b[#] %7- %3View your requests", false));
+		player.sendMessage(cu.format("%1/im %3request %b<player> [item:damage] [#] %7- %3Ask someone for items", false));
+		player.sendMessage(cu.format("%1/im %3accept %b[#] %7- %3Accept requests", false));
+		player.sendMessage(cu.format("%1/im %3decline %b[#] %7- %3Decline requests", false));
+		player.sendMessage(cu.format("%1/im %3? %7- %3Shows this message", false));
+		player.sendMessage(cu.format("%5KEY: %6<> %7= %2Required %6[] %7= %2Optional %6/ %7= %2Or %6* %7= %2All", false));
 		player.sendMessage(cu.format("%b-----------------------------------------------------", false));
 	}
 	

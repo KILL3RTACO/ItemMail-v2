@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import taco.im.util.ChatUtils;
+import taco.im.util.ItemNames;
 
 
 public class Mail implements BaseMail{
@@ -64,37 +65,46 @@ public class Mail implements BaseMail{
 		}
 	}
 	
-	public void send(){
+	public boolean send(){
 		Player pSender = plugin.getServer().getPlayer(sender);
 		Player pReceiver = plugin.getServer().getPlayer(receiver);
 		if(pReceiver == null){
 			OfflinePlayer op = plugin.getServer().getOfflinePlayer(receiver);
 			if(op.hasPlayedBefore()){
-				if(testInventory() && testSendConditions(pSender)){
-					doSendStatement(true);
+				if(hasItems() && testSendConditions(pSender)){
+					doSendStatement(op.getName());
 					pSender.getInventory().removeItem(items);
-					pSender.sendMessage(cu.format("%aSent %2" + getItemAmount() + " " + getItemType() + " %ato %d" + pSender.getName(), true));
+					pSender.sendMessage(cu.format("%aSent %2" + getItemAmount() + " " + ItemNames.getDisplayName(items) + 
+							" %ato %d" + op.getName(), true));
+					return true;
 				}else{
-					pSender.sendMessage(cu.format("%cYou do not have %6" + getItemAmount() + " " + getItemType(), true));
+					pSender.sendMessage(cu.format("%cYou do not have %6" + getItemAmount() + " " + ItemNames.getDisplayName(items), true));
+					return false;
 				}
 			}else{
 				pSender.sendMessage(cu.format("%cPlayer '%f" + receiver + "%c' does not exist or has not played on this server before", true));
+				return false;
 			}
 		}else{
-			if(testInventory() && testSendConditions(pSender)){
-				if(pSender.getName() == pReceiver.getName()){
+			if(hasItems() && testSendConditions(pSender)){
+				if(pSender.getName().equalsIgnoreCase(pReceiver.getName())){
 					pSender.sendMessage(cu.format("%cYou can't send items to yourself", true));
+				return false;
 				}else{
-					doSendStatement(true);
+					doSendStatement(pReceiver.getName());
 					pSender.getInventory().removeItem(items);
-					pSender.sendMessage(cu.format("%aSent %2" + getItemAmount() + " " + getItemType() + " %ato %d" + pSender.getName(), true));
+					pSender.sendMessage(cu.format("%aSent %2" + getItemAmount() + " " + ItemNames.getDisplayName(items) + 
+							" %ato %d" + pReceiver.getName(), true));
+					return true;
 				}
+			}else{
+				return false;
 			}
 		}
 
 	}
 	
-	private boolean testInventory() {
+	private boolean hasItems() {
 		Player player = plugin.getServer().getPlayer(sender);
 		int needed = getItemAmount();
 		int amount = 0;
@@ -137,7 +147,7 @@ public class Mail implements BaseMail{
 	
 	private boolean hasRoom(){
 		Player player = plugin.getServer().getPlayer(receiver);
-		int space = 0, needed = 0;
+		int space = 0, needed = getItemAmount();
 		for(ItemStack i : player.getInventory()){
 			if(i == null){
 				space += items.getMaxStackSize();
@@ -159,9 +169,10 @@ public class Mail implements BaseMail{
 			if(player.getGameMode() != GameMode.CREATIVE && hasRoom()){
 				doReadStatement();
 				player.getInventory().addItem(items);
-				player.sendMessage(cu.format("%6CONTENTS: %2" + getItemAmount() + " " + getItemType(), true));
+				player.sendMessage(cu.format("%6CONTENTS: %2" + getItemAmount() + " " + ItemNames.getDisplayName(items), true));
 			}else if(!hasRoom()){
-				player.sendMessage(cu.format("%cYou do not have room in your inventory to carry %6" + getItemAmount() + " " + getItemType(), true));
+				player.sendMessage(cu.format("%cYou can't carry %6" + getItemAmount() +
+						" " + ItemNames.getDisplayName(items), true));
 			}else{
 				player.sendMessage(cu.format("%cPlease change your gamemode to survival mode to get mail", true));
 			}
@@ -172,7 +183,7 @@ public class Mail implements BaseMail{
 	
 	private void doReadStatement(){
 		try {
-			String sql = "SELECT * FROM `item_mail` WHERE `receiver`='" + receiver + "' AND `read`='0'";
+			String sql = "SELECT * FROM `item_mail` WHERE `receiver`='" + receiver + "' AND `type`='gift' AND `read`='0'";
 			ResultSet rs = plugin.mysql.getResultSet(sql);
 			int tId = getItemTypeId();
 			int d = getItemDamage();
@@ -189,14 +200,9 @@ public class Mail implements BaseMail{
 		}
 	}
 	
-	private void doSendStatement(boolean offline){
-		String sendr, recvr = "";
-		if(offline){
-			recvr = plugin.getServer().getOfflinePlayer(receiver).getName();
-		}else{
-			recvr = plugin.getServer().getPlayer(receiver).getName();
-		}
-		sendr = plugin.getServer().getPlayer(sender).getName();
+	private void doSendStatement(String name){
+		String sendr = plugin.getServer().getPlayer(sender).getName();
+		String recvr = name;
 		try {
 			String sql = "INSERT INTO `item_mail` (`sender`, `receiver`, `type`, `item_id`, `damage`, `amount`) VALUES('" + sendr + "', " +
 				"'" + recvr + "', 'gift', '" + getItemTypeId() + "', '" + getItemDamage() + "', '" + getItemAmount() + "')";

@@ -6,6 +6,7 @@ public class ChatUtils {
 	
 	private String header = format("%7[%1ItemMail%7]%f ", false);
 	public String mailNonExistant = format("%cThat mail doesn't exist", true);
+	public String requestNonExistant = format("That request doesn't exist", true);
 	public String invalidArgs = format("%cInvalid arguments, please use '%7/im ?%c' for help", true);
 	public String invalidPerm = format("%cYou don't have permission", true);
 	

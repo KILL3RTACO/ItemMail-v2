@@ -29,7 +29,7 @@ public class ItemMailSQL {
 	
 	private void createTables() throws SQLException{
 		String sql = "CREATE TABLE IF NOT EXISTS `item_mail` (`id` INT(16) NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
-				"`sender` VARCHAR(16) NOT NULL, `receiver` VARCHAR(16) NOT NULL, `type` VARCHAR(5) NOT NULL, " +
+				"`sender` VARCHAR(16) NOT NULL, `receiver` VARCHAR(16) NOT NULL, `type` VARCHAR(7) NOT NULL, " +
 				"`item_id` INT(5) NOT NULL, `damage` INT(2) NOT NULL DEFAULT '0', `amount` INT(4) NOT NULL DEFAULT '1', " +
 				"`time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP, `read` INT(1) DEFAULT '0') ENGINE = MYISAM COMMENT = 'ItemMail storage table'";
 		statement(sql);

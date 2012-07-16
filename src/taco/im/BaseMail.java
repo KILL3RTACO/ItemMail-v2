@@ -19,6 +19,6 @@ public interface BaseMail {
 	
 	public int getItemTypeId();
 	
-	public void send();
+	public boolean send();
 	
 }
