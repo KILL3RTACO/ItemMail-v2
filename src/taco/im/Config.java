@@ -15,22 +15,28 @@ public class Config {
 		this.configFile = file;
 	}
 	
-	public void loadDefaults(){
-		config.options().header("ItemMail configuration options\nby KILL3RTACO");
-		if(!config.contains("mysql.database.name"))							//MySQL options
-			config.set("mysql.database.name", "minecraft");
-		if(!config.contains("mysql.database.username"))
-			config.set("mysql.database.username", "root");
-		if(!config.contains("mysql.database.password"))
-			config.set("mysql.database.password", "root");
-		if(!config.contains("mysql.server.address"))
-			config.set("mysql.server.address", "localhost");
-		if(!config.contains("mysql.server.port"))
-			config.set("mysql.server.port", 3306);
-		save();
+	public void addDefaultConfigValue(String path, Object value){	
+		if(!config.contains(path)){
+			if(value instanceof String){
+				config.set(path, (String)value);
+			}else{
+				config.set(path, value);
+			}
+		}
 	}
 	
-	private void save(){
+	public void header(){
+		config.options().header("ItemMail MySQL Configuration\n" +
+				"by KILL3RTACO\n\n" +
+				"Most of the concept/idea behind this plugin (including this file) is based off Mail, a plugin by vanZeben.\n" +
+				"He is an excellent coder and you should check out his plugins. Kudos to you, vanZeben/ImDeity - <3 Taco\n\n" +
+				"Mail - http://dev.bukkit.org/server-mods/mail\n" +
+				"vanZeben's profile - http://dev.bukkit.org/profiles/vanzeben\n" +
+				"ImDeity: Kingdoms server - http://ww.imdeity.com\n\n" +
+				"Please follow the color codes defined in - http://www.minecraftwiki.net/wiki/Classic_server_protocol#Color_Codes\n");
+	}
+	
+	void save(){
 		try {
 			config.save(configFile);
 		} catch (IOException e) {

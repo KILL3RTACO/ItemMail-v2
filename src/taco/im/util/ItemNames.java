@@ -112,7 +112,7 @@ public enum ItemNames {
 				//If no name didn't match any listed above
 				Material mat = null;
 				if(isNum(material)) mat = Material.getMaterial(Integer.parseInt(material));
-				else mat = Material.getMaterial(material);
+				else mat = Material.getMaterial(material.toUpperCase());
 				if(mat == null){
 					return null;
 				}else{
