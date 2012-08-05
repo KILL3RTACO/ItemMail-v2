@@ -1,41 +1,61 @@
 package taco.im.cmd.subcommands;
 
+import java.sql.SQLException;
+
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 
 import taco.im.ItemMail;
-import taco.im.PermissionsHelper;
-import taco.im.util.ChatUtils;
 
 public class BlacklistSubCommand {
-
-	private ChatUtils cu = new ChatUtils();
 	
-	public BlacklistSubCommand(Player invoker, String num, boolean add){
-		String perm;
-		if(add) perm = PermissionsHelper.ADD_BLACKLISTED_ITEM_PERMISSION;
-		else perm = PermissionsHelper.REMOVE_BLACKLISTED_ITEM_PERMISSION;
-		if(invoker.hasPermission(perm)){
-			if(cu.isNum(num)){
-				int id = Integer.parseInt(num);
-				Material temp = Material.getMaterial(id);
-				if(temp != null){
-					if(add){
-						if(ItemMail.config.addItemToBlacklist(id)){
-							//TODO tell admin item is blacklisted
-						}else{
-							//TODO tell admin item is already in blacklist
-						}
-					}else{
-						if(ItemMail.config.removeItemFromBlacklist(id)){
-							//TODO tell admin item was removed from blacklist
-						}else{
-							//TODO tell admin item is not in item blacklist
-						}
-					}
-				}
-			}
+	private String[] aliases = new String[]{"blacklist", "bl", "blist"};
+	private String[] addAliases = new String[]{"add", "a"};
+	private String[] rmAliases = new String[]{"remove", "rm", "r"};
+	
+	public void addToBlacklist(int id, int damage){
+		try {
+			String sql = "INSERT INTO `im_blacklist` (`item_id`, `item_damage`) VALUES ('" + id + "' ,'" + damage + "')";
+			ItemMail.db.statement(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
+	public void removeFromBlacklist(int id, int damage){
+		try {
+			String sql = "INSERT INTO `im_blacklist` (`item_id`, `item_damage`) VALUES ('" + id + "' ,'" + damage + "')";
+			ItemMail.db.statement(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public boolean getAliasMatch(String name){
+		for(String s : aliases){
+			if(name.equalsIgnoreCase(s)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean getAddAliasMatch(String name){
+		for(String s : addAliases){
+			if(name.equalsIgnoreCase(s)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean getRemoveAliasMatch(String name){
+		for(String s : rmAliases){
+			if(name.equalsIgnoreCase(s)){
+				return true;
+			}
+		}
+		return false;
+	}
 }

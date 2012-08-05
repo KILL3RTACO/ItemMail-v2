@@ -31,11 +31,23 @@ public class ItemMailSQL {
 				"`item_id` INT(5) NOT NULL, `damage` INT(2) NOT NULL DEFAULT '0', `amount` INT(4) NOT NULL DEFAULT '1', " +
 				"`time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP, `read` INT(1) DEFAULT '0') ENGINE = MYISAM COMMENT = 'ItemMail storage table'";
 		statement(sql);
-		sql = "CREATE TABLE IF NOT EXISTS `im_notifications` (`player` VARCHAR(16) NOT NULL, `type` VARCHAR(7), `status` VARCHAR(3))" +
-				"ENGINE = MYISAM COMMENT = 'ItemMail player notifications'";
+		sql = "CREATE TABLE IF NOT EXISTS `im_blacklist'" +
+				"ENGINE = MYISAM COMMENT = 'ItemMail item blacklist'";
 		statement(sql);
+		upgradeTables();
 	}
 	
+	private void upgradeTables() {
+		try {
+
+			String sql = "ALTER TABLE `item_mail' ADD COLUMN `enchantment` INT(2) AFTER `damage`";
+			statement(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
 	private void connect() throws SQLException{
 		conn = DriverManager.getConnection("jdbc:mysql://" + address + ":" + port + "/" + db , usr, pass);
 	}

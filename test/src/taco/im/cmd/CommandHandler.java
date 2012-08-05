@@ -23,7 +23,6 @@ public class CommandHandler implements CommandExecutor {
 	
 	private ChatUtils cu = new ChatUtils();
 	private AcceptSubCommand acceptCommand = new AcceptSubCommand();
-	private BlacklistSubCommand blacklistCommand;
 	private DeclineSubCommand declineCommand = new DeclineSubCommand();
 	private DeleteSubCommand deleteCommand = new DeleteSubCommand();
 	private OpenSubCommand openCommand = new OpenSubCommand();
@@ -58,9 +57,20 @@ public class CommandHandler implements CommandExecutor {
 			// /im open {last-received}	
 			}else if(openCommand.getAliasMatch(args[0])){
 				
-			// /im 	
+			// /im blacklist {held-item}
 			}
 		}else if(args.length == 2){
+			// /im accept [#]
+			if(acceptCommand.getAliasMatch(args[0])){
+				
+			// /im decline [#]
+			}else if(declineCommand.getAliasMatch(args[0])){
+				
+			// /im delete [#]
+			}else if(deleteCommand.getAliasMatch(args[0])){
+				
+			// /im open	
+			}
 		}else if(args.length == 3){
 		}else if(args.length == 4){
 			// /im send <player> [item] [#/*]
