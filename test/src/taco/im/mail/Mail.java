@@ -13,10 +13,6 @@ import taco.im.ItemMail;
 import taco.im.MailBoxType;
 import taco.im.MailType;
 import taco.im.PermissionsHelper;
-import taco.im.exception.InsufficientSpaceException;
-import taco.im.exception.InvalidGameModeException;
-import taco.im.exception.InvalidPermissionsException;
-import taco.im.exception.MailNonExistantException;
 import taco.im.util.ChatUtils;
 import taco.im.util.ItemNames;
 
@@ -62,18 +58,18 @@ public class Mail implements MailType{
 		return receiver;
 	}
 	
-	public void trash() throws InvalidPermissionsException{
+	public void trash(){
 		Player p = ItemMail.server.getPlayer(receiver);
 		if(p.hasPermission(PermissionsHelper.DELETE_PERMISSION)){
 			doReadStatement();
 			//TODO place-holder
 			p.sendMessage(cu.formatColors("&aPackage trashed"));
 		}else{
-			throw new InvalidPermissionsException("");
+			//TODO send message (language.yml)
 		}
 	}
 	
-	public boolean send() throws InvalidPermissionsException, InvalidGameModeException{
+	public boolean send(){
 		Player pSender = ItemMail.server.getPlayer(sender);
 		Player pReceiver = ItemMail.server.getPlayer(receiver);
 		if(pReceiver == null){
@@ -138,13 +134,15 @@ public class Mail implements MailType{
 		}
 	}
 	
-	private boolean testSendConditions(Player sender)throws InvalidPermissionsException, InvalidGameModeException{
-		if(sender.hasPermission(PermissionsHelper.SEND_PERMISSION)){
+	private boolean testSendConditions(Player sender){
+		if(sender.hasPermission(PermissionsHelper.SEND_PERMISSION) || sender.hasPermission(PermissionsHelper.ALL_GENERAL_PERMISSION)){
 			if(sender.getGameMode() == GameMode.CREATIVE){
-				if(sender.hasPermission(PermissionsHelper.SEND_IN_CREATIVE_PERMISSION)){
+				if(sender.hasPermission(PermissionsHelper.SEND_IN_CREATIVE_PERMISSION) 
+						|| sender.hasPermission(PermissionsHelper.ALL_GENERAL_PERMISSION)){
 					return true;
 				}else{
-					throw new InvalidGameModeException("");
+					//TODO send message (language.yml)
+					return false;
 				}
 			}else{
 				if(getItemType() == Material.AIR){
@@ -160,7 +158,8 @@ public class Mail implements MailType{
 				}
 			}
 		}else{
-			throw new InvalidPermissionsException("");
+			//TODO send message (language.yml)
+			return false;
 		}
 	}
 	
@@ -181,25 +180,25 @@ public class Mail implements MailType{
 		}
 	}
 
-	public void open() throws InvalidPermissionsException, MailNonExistantException, InvalidGameModeException, InsufficientSpaceException{
+	public void open(){
 		if(this != null){
 			Player player = ItemMail.server.getPlayer(receiver);
-			if(player.hasPermission(PermissionsHelper.OPEN_PERMISSION)){
+			if(player.hasPermission(PermissionsHelper.OPEN_PERMISSION) || player.hasPermission(PermissionsHelper.ALL_GENERAL_PERMISSION)){
 				if(player.getGameMode() != GameMode.CREATIVE && hasRoom()){
 					doReadStatement();
 					player.getInventory().addItem(items);
 					//TODO place-holder
 					player.sendMessage(cu.formatColors("&6CONTENTS: &2" + getItemAmount() + " " + ItemNames.getDisplayName(items)));
 				}else if(!hasRoom()){
-					throw new InsufficientSpaceException("");
+					//TODO send message (language.yml) no room
 				}else{
-					throw new InvalidGameModeException("");
+					//TODO send message (language.yml) invalid game mode: open
 				}
 			}else{
-				throw new InvalidPermissionsException("");
+				//TODO send message (language.yml) invalid permission
 			}
 		}else{
-			throw new MailNonExistantException("");
+			//TODO send message (language.yml) mail non existant
 		}
 	}
 	

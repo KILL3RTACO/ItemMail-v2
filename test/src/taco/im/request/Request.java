@@ -12,9 +12,6 @@ import taco.im.ItemMail;
 import taco.im.MailBoxType;
 import taco.im.MailType;
 import taco.im.PermissionsHelper;
-import taco.im.exception.InvalidGameModeException;
-import taco.im.exception.InvalidPermissionsException;
-import taco.im.exception.RequestNonExistantException;
 import taco.im.mail.Mail;
 import taco.im.util.ChatUtils;
 import taco.im.util.ItemNames;
@@ -60,7 +57,7 @@ public class Request implements MailType {
 		return items.getDurability();
 	}
 
-	public boolean send() throws InvalidPermissionsException{
+	public boolean send(){
 		Player pSender = ItemMail.server.getPlayer(sender);
 		Player pReceiver = ItemMail.server.getPlayer(receiver);
 		if(pSender.hasPermission(PermissionsHelper.REQUEST_PERMISSION)){
@@ -100,7 +97,8 @@ public class Request implements MailType {
 				}
 			}
 		}else{
-			throw new InvalidPermissionsException("");
+			//TODO send invalid permissions
+			return false;
 		}
 	}
 	
@@ -135,7 +133,7 @@ public class Request implements MailType {
 		}
 	}
 
-	public void accept() throws InvalidPermissionsException, InvalidGameModeException, RequestNonExistantException{
+	public void accept(){
 		if(this != null){
 			Player player = ItemMail.server.getPlayer(receiver);
 			if(player.hasPermission(PermissionsHelper.ACCEPT_PERMISSION)){
@@ -146,20 +144,20 @@ public class Request implements MailType {
 					doReadStatement();
 				}
 			}else{
-				throw new InvalidPermissionsException("");
+				//TODO send invalid permissions
 			}
 		}else{
-			throw new RequestNonExistantException("");
+			//TODO request non existant
 		}
 	}
-	public void decline() throws InvalidPermissionsException{
+	public void decline(){
 		Player player = ItemMail.server.getPlayer(receiver);
 		if(player.hasPermission(PermissionsHelper.DECLINE_PERMISSION)){
 			//TODO place-holder
 			player.sendMessage(cu.formatColors("&aRequest denied"));
 			doReadStatement();
 		}else{
-			throw new InvalidPermissionsException("");
+			//TODO send invalid permissions
 		}
 	}
 	

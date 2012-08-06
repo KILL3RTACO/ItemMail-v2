@@ -3,9 +3,6 @@ package taco.im;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import taco.im.exception.InvalidGameModeException;
-import taco.im.exception.InvalidPermissionsException;
-
 public interface MailType {
 
 	public MailBoxType getBox();
@@ -24,5 +21,5 @@ public interface MailType {
 	
 	public int getItemTypeId();
 	
-	public boolean send() throws InvalidPermissionsException, InvalidGameModeException;	
+	public boolean send();
 }

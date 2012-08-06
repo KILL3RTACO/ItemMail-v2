@@ -1,6 +1,6 @@
 name: ItemMail
 main: taco.im.ItemMail
-version: 2.01.12
+version: 2.01.15
 description: Trading and gifting made easy
 commands:
   itemmail:

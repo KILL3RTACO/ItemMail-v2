@@ -2,8 +2,6 @@ package taco.im;
 
 import org.bukkit.entity.Player;
 
-import taco.im.exception.InvalidPermissionsException;
-
 public interface MailBoxType {
 	
 	public Player getOwner();
@@ -14,6 +12,6 @@ public interface MailBoxType {
 	
 	public void reload();
 	
-	public void deleteAll() throws InvalidPermissionsException;
+	public void deleteAll();
 	
 }

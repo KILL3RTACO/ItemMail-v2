@@ -10,7 +10,6 @@ import org.bukkit.inventory.ItemStack;
 import taco.im.ItemMail;
 import taco.im.MailBoxType;
 import taco.im.PermissionsHelper;
-import taco.im.exception.InvalidPermissionsException;
 import taco.im.util.ChatUtils;
 import taco.im.util.ItemNames;
 
@@ -72,9 +71,9 @@ public class MailBox implements MailBoxType{
 		}
 	}
 	
-	public void deleteAll() throws InvalidPermissionsException{
+	public void deleteAll(){
 		reload();
-		if(player.hasPermission(PermissionsHelper.DELETE_PERMISSION)){
+		if(player.hasPermission(PermissionsHelper.DELETE_PERMISSION) || player.hasPermission(PermissionsHelper.ALL_GENERAL_PERMISSION)){
 			if(getUnreadCount() == 0){
 				player.sendMessage(cu.formatColors("&cYou have no mail to delete"));
 			}else{
@@ -101,7 +100,7 @@ public class MailBox implements MailBoxType{
 				player.sendMessage(cu.formatColors("&2" + count + " &apackage(s) trashed"));
 			}
 		}else{
-			throw new InvalidPermissionsException("");
+			//TODO send message: invalid permssions
 		}
 	}
 }

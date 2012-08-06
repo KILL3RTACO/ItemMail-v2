@@ -10,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import taco.im.cmd.CommandHandler;
 import taco.im.listener.ItemMailListener;
+import taco.im.log.GlobalLog;
 import taco.im.sql.ItemMailSQL;
 import taco.im.util.HelpStrings;
 
@@ -17,6 +18,7 @@ public class ItemMail extends JavaPlugin{
 
 	public static Config config;
 	public static Language lang;
+	public static GlobalLog log;
 	public static Server server;
 	public static ItemMail plugin;
 	private boolean hasError = false;
@@ -28,6 +30,7 @@ public class ItemMail extends JavaPlugin{
 	
 	public void onEnable(){
 		plugin = this;
+		log = new GlobalLog();
 		server = getServer();
 		initConfig();
 		initLanguage();

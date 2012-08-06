@@ -10,7 +10,6 @@ import org.bukkit.inventory.ItemStack;
 import taco.im.ItemMail;
 import taco.im.MailBoxType;
 import taco.im.PermissionsHelper;
-import taco.im.exception.InvalidPermissionsException;
 import taco.im.util.ChatUtils;
 import taco.im.util.ItemNames;
 
@@ -73,7 +72,7 @@ public class RequestBox implements MailBoxType{
 		}
 	}
 	
-	public void deleteAll() throws InvalidPermissionsException{
+	public void deleteAll(){
 		reload();
 		if(player.hasPermission(PermissionsHelper.DECLINE_PERMISSION)){
 			if(getUnreadCount() == 0){
@@ -102,7 +101,7 @@ public class RequestBox implements MailBoxType{
 				player.sendMessage(cu.formatColors("&2" + count + " &arequest(s) declined"));
 			}
 		}else{
-			throw new InvalidPermissionsException("");
+			//TODO send invalid permissions
 		}
 	}
 }
