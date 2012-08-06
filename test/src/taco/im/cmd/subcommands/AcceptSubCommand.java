@@ -1,5 +1,8 @@
 package taco.im.cmd.subcommands;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.bukkit.entity.Player;
 
 import taco.im.MailBoxType;
@@ -9,12 +12,14 @@ import taco.im.request.Request;
 public class AcceptSubCommand extends ItemMailBoxCommand{
 	
 	public AcceptSubCommand(){
-		this.aliases = new String[]{"accept"};
+		this.aliases = new String[]{"accept", "acc", "yes"};
 	}
 
 	@Override
 	public void execute(MailBoxType boxType) {
-		//Nothing
+		
+		ArrayList<HashMap<String, Integer>> allMail = new ArrayList<HashMap<String, Integer>>();
+		
 	}
 
 	@Override

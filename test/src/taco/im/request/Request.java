@@ -12,7 +12,6 @@ import taco.im.ItemMail;
 import taco.im.MailBoxType;
 import taco.im.MailType;
 import taco.im.PermissionsHelper;
-import taco.im.event.request.RequestSentEvent;
 import taco.im.exception.InvalidGameModeException;
 import taco.im.exception.InvalidPermissionsException;
 import taco.im.exception.RequestNonExistantException;
@@ -73,9 +72,9 @@ public class Request implements MailType {
 						return false;
 					}else{
 						doSendStatement(op.getName());
+						//TODO place-holder
 						pSender.sendMessage(cu.formatColors("&aAsked &d" + op.getName() + "&a for &2" + getItemAmount() + 
 								" " + ItemNames.getDisplayName(items)));
-						ItemMail.server.getPluginManager().callEvent(new RequestSentEvent(this));
 						return true;
 					}
 				}else{
@@ -88,13 +87,13 @@ public class Request implements MailType {
 					return false;
 				}else{
 					if(getItemAmount() == 0){
+						//TODO place-holder
 						pSender.sendMessage(cu.formatColors("&cYou can't ask for &60&c of something"));
 						return false;
 					}else{
 						doSendStatement(pReceiver.getName());
 						pSender.sendMessage(cu.formatColors("&aAsked &d" + pReceiver.getName() + "&a for &2" + getItemAmount() + 
 								" " + ItemNames.getDisplayName(items)));
-						ItemMail.server.getPluginManager().callEvent(new RequestSentEvent(this));
 						return true;
 					}
 					
@@ -142,6 +141,7 @@ public class Request implements MailType {
 			if(player.hasPermission(PermissionsHelper.ACCEPT_PERMISSION)){
 				Mail mail = new Mail(receiver, sender, items);
 				if(mail.send()){
+					//TODO place-holder
 					player.sendMessage(cu.formatColors("&aRequest accepted"));
 					doReadStatement();
 				}
@@ -155,6 +155,7 @@ public class Request implements MailType {
 	public void decline() throws InvalidPermissionsException{
 		Player player = ItemMail.server.getPlayer(receiver);
 		if(player.hasPermission(PermissionsHelper.DECLINE_PERMISSION)){
+			//TODO place-holder
 			player.sendMessage(cu.formatColors("&aRequest denied"));
 			doReadStatement();
 		}else{

@@ -14,8 +14,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import taco.im.ItemMail;
-import taco.im.event.mail.MailSentEvent;
-import taco.im.event.request.RequestSentEvent;
 import taco.im.mail.MailBox;
 import taco.im.request.RequestBox;
 import taco.im.util.ChatUtils;
@@ -80,16 +78,6 @@ public class ItemMailListener implements Listener {
 				event.getPlayer().sendMessage(cu.formatColors("&aSignMailbox created. Left-click for RequestBox; Right-click for MailBox"));
 			}
 		}
-	}
-	
-	@EventHandler
-	public void onMailSend(MailSentEvent event){
-		
-	}
-	
-	@EventHandler
-	public void onRequest(RequestSentEvent event){
-		
 	}
 	
 }

@@ -1,7 +1,6 @@
 package taco.im.util;
 
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public enum ItemNames {

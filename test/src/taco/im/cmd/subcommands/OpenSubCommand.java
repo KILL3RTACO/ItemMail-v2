@@ -8,6 +8,10 @@ import taco.im.mail.Mail;
 
 public class OpenSubCommand extends ItemMailBoxCommand{
 	
+	public OpenSubCommand(){
+		this.aliases = new String[]{"open", "o"};
+	}
+	
 	public void execute(Player p, int index){
 		Mail mail = Mail.getMailFromTable(p, index);
 		try {

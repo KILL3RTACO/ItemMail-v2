@@ -9,7 +9,7 @@ public abstract class ItemMailCommand {
 	
 	public abstract void execute(MailType mType);
 	
-	public boolean getAliasMatch(String name){
+	public boolean hasAlias(String name){
 		for(String s : aliases){
 			if(name.equalsIgnoreCase(s)) return true;
 		}

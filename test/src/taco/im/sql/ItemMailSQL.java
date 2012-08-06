@@ -10,6 +10,7 @@ import taco.im.ItemMail;
 
 public class ItemMailSQL {
 
+	public BlacklistTable bl = new BlacklistTable();
 	private Connection conn = null;
 	private String db, address, usr, pass;
 	private int port;

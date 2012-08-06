@@ -12,9 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import taco.im.ItemMail;
 import taco.im.MailBoxType;
 import taco.im.MailType;
-import taco.im.Notification;
 import taco.im.PermissionsHelper;
-import taco.im.event.mail.MailSentEvent;
 import taco.im.exception.InsufficientSpaceException;
 import taco.im.exception.InvalidGameModeException;
 import taco.im.exception.InvalidPermissionsException;
@@ -28,7 +26,6 @@ public class Mail implements MailType{
 	private ChatUtils cu = new ChatUtils();
 	private String sender, receiver;
 	private ItemStack items;
-	private boolean hasPlayer;
 	
 	public Mail(String sender, String receiver, ItemStack items){
 		this.sender = sender;
@@ -69,6 +66,7 @@ public class Mail implements MailType{
 		Player p = ItemMail.server.getPlayer(receiver);
 		if(p.hasPermission(PermissionsHelper.DELETE_PERMISSION)){
 			doReadStatement();
+			//TODO place-holder
 			p.sendMessage(cu.formatColors("&aPackage trashed"));
 		}else{
 			throw new InvalidPermissionsException("");
@@ -84,12 +82,11 @@ public class Mail implements MailType{
 				if(hasItems() && testSendConditions(pSender)){
 					doSendStatement(op.getName());
 					if(isPlayer(sender)){
-						hasPlayer = true;
 						pSender.getInventory().removeItem(items);
+						//TODO place-holder
 						pSender.sendMessage(cu.formatColors("&aSent &2" + getItemAmount() + " " + ItemNames.getDisplayName(items) + 
 								" &ato &d" + op.getName()));
 					}
-					ItemMail.server.getPluginManager().callEvent(new MailSentEvent(this));
 					return true;
 				}else{
 					return false;
@@ -101,6 +98,7 @@ public class Mail implements MailType{
 		}else{
 			if(hasItems() && testSendConditions(pSender)){
 				if(pSender.getName().equalsIgnoreCase(pReceiver.getName())){
+					//TODO place-holder
 					pSender.sendMessage(cu.formatColors("&cYou can't send items to yourself"));
 					return false;
 				}else{
@@ -108,7 +106,6 @@ public class Mail implements MailType{
 					pSender.getInventory().removeItem(items);
 					pSender.sendMessage(cu.formatColors("&aSent &2" + getItemAmount() + " " + ItemNames.getDisplayName(items) + 
 							" &ato &d" + pReceiver.getName()));
-					ItemMail.server.getPluginManager().callEvent(new MailSentEvent(this));
 					return true;
 				}
 			}else{
@@ -135,6 +132,7 @@ public class Mail implements MailType{
 		if(amount >= needed){
 			return true;
 		}else{
+			//TODO place-holder
 			player.sendMessage(cu.formatColors("&cYou don't have &6" + items.getAmount() + " " + items.getType()));
 			return false;
 		}
@@ -150,9 +148,11 @@ public class Mail implements MailType{
 				}
 			}else{
 				if(getItemType() == Material.AIR){
+					//TODO place-holder
 					sender.sendMessage(cu.formatColors("&cYou can't send &6AIR"));
 					return false;
 				}else if(getItemAmount() == 0){
+					//TODO place-holder
 					sender.sendMessage(cu.formatColors("&cYou can't send &60&c of something"));
 					return false;
 				}else{

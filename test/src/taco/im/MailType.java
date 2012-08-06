@@ -7,8 +7,6 @@ import taco.im.exception.InvalidGameModeException;
 import taco.im.exception.InvalidPermissionsException;
 
 public interface MailType {
-	
-	public boolean hasPlayer = true;
 
 	public MailBoxType getBox();
 	

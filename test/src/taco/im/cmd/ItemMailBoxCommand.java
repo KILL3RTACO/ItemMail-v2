@@ -13,7 +13,7 @@ public abstract class ItemMailBoxCommand {
 	
 	public abstract void execute(Player p, int index);
 	
-	public boolean getAliasMatch(String name){
+	public boolean hasAlias(String name){
 		for(String s : aliases){
 			if(name.equalsIgnoreCase(s)) return true;
 		}

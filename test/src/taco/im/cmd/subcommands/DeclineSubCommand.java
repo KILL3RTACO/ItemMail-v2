@@ -9,7 +9,7 @@ import taco.im.request.Request;
 public class DeclineSubCommand extends ItemMailBoxCommand{
 
 	public DeclineSubCommand(){
-		this.aliases = new String[]{"decline"};
+		this.aliases = new String[]{"decline", "deny", "dec", "no", "d"};
 	}
 	
 	public void execute(Player p, int index){

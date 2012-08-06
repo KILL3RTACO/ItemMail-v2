@@ -77,10 +77,6 @@ public class ItemMail extends JavaPlugin{
 		info("Saving language.yml...");
 	}
 	
-	public static boolean getIsBlacklisted(int id, int damage){
-		String sql = "SELECT FROM "
-	}
-	
 	public void info(String msg){
 		System.out.println("[ItemMail] " + msg);
 	}

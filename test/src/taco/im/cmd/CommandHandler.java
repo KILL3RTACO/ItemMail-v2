@@ -23,6 +23,7 @@ public class CommandHandler implements CommandExecutor {
 	
 	private ChatUtils cu = new ChatUtils();
 	private AcceptSubCommand acceptCommand = new AcceptSubCommand();
+	private BlacklistSubCommand blacklistCommand = new BlacklistSubCommand();
 	private DeclineSubCommand declineCommand = new DeclineSubCommand();
 	private DeleteSubCommand deleteCommand = new DeleteSubCommand();
 	private OpenSubCommand openCommand = new OpenSubCommand();
@@ -46,36 +47,58 @@ public class CommandHandler implements CommandExecutor {
 			}else if(args[0].equalsIgnoreCase("?") || args[0].equalsIgnoreCase("help")){
 				ItemMail.plugin.sendHelp(player, 1);
 			// /im accept {last-received}
-			}else if(acceptCommand.getAliasMatch(args[0])){
+			}else if(acceptCommand.hasAlias(args[0])){
 				
 			// /im decline {lasy-received}	
-			}else if(declineCommand.getAliasMatch(args[0])){
+			}else if(declineCommand.hasAlias(args[0])){
 				
 			// /im delete {last-received}	
-			}else if(deleteCommand.getAliasMatch(args[0])){
+			}else if(deleteCommand.hasAlias(args[0])){
 				
 			// /im open {last-received}	
-			}else if(openCommand.getAliasMatch(args[0])){
+			}else if(openCommand.hasAlias(args[0])){
 				
 			// /im blacklist {held-item}
 			}
 		}else if(args.length == 2){
 			// /im accept [#]
-			if(acceptCommand.getAliasMatch(args[0])){
+			if(acceptCommand.hasAlias(args[0])){
 				
 			// /im decline [#]
-			}else if(declineCommand.getAliasMatch(args[0])){
+			}else if(declineCommand.hasAlias(args[0])){
 				
 			// /im delete [#]
-			}else if(deleteCommand.getAliasMatch(args[0])){
+			}else if(deleteCommand.hasAlias(args[0])){
 				
-			// /im open	
+			// /im open	[#]
+			}else if(openCommand.hasAlias(args[0])){
+				
 			}
 		}else if(args.length == 3){
+			// /im request <player> <item> {1}
+			if(requestCommand.hasAlias(args[0])){
+				
+			// /im send <player> [item] {1}	
+			}else if(sendCommand.hasAlias(args[0])){
+				
+			// /im blacklist <add/remove> <item>	
+			}else if(blacklistCommand.hasAlias(args[0])){
+				if(blacklistCommand.hasAddAlias(args[0])){
+					
+				}else if(blacklistCommand.hasRemoveAlias(args[0])){
+					
+				}
+			}
 		}else if(args.length == 4){
-			// /im send <player> [item] [#/*]
-			
+			// /im request <player> <item> [#/*]
+			if(requestCommand.hasAlias(args[0])){
+				
+			// /im send <player> [item] [#/*]	
+			}else if(sendCommand.hasAlias(args[0])){
+				
+			}
 		}
+		
 		return true;
 	}
 
